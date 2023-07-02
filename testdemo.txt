@@ -1,0 +1,29 @@
+BookManager Test
+
+badd b 70.5 10003 BP BPH
+badd e 20.5 10001 BP BPH
+badd a 120 10002 BP BPH
+bprint
+bclassify
+bsort
+bprint
+badd d 102 10004 BP BPH
+bsort
+bprint
+bsearch a
+bsearch b 70.5
+bsearch c
+bsearch 20.5
+badd c 20.5 10005 BP BPH
+bsort
+bprint
+bclassify
+badd a 120 10002 BP BPH
+badd a 121 10002 BP BPH
+
+UserManager Test
+
+uadd ua 123456 xin
+uadd ub 123457 xin
+uupdate ua 123456 xin
+usearch 123456
