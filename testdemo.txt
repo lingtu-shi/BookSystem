@@ -1,29 +1,53 @@
 BookManager Test
 
-badd b 70.5 10003 BP BPH
-badd e 20.5 10001 BP BPH
-badd a 120 10002 BP BPH
-bprint
-bclassify
-bsort
-bprint
-badd d 102 10004 BP BPH
-bsort
-bprint
-bsearch a
-bsearch b 70.5
-bsearch c
-bsearch 20.5
-badd c 20.5 10005 BP BPH
-bsort
-bprint
-bclassify
-badd a 120 10002 BP BPH
-badd a 121 10002 BP BPH
+bookbuyer mode
 
-UserManager Test
+add b 70.5 10003 BP BPH 2 BS
+add e 20.5 10001 BP BPH 1 BS
+add a 120 10002 BP BPH 2 BS
+print
 
-uadd ua 123456 xin
-uadd ub 123457 xin
-uupdate ua 123456 xin
-usearch 123456
+bookkeeper mode
+
+classify
+sort
+print
+
+bookbuyer mode
+
+add d 102 10004 BP BPH 3 BS
+
+bookkeeper mode
+
+sort
+print
+search a
+search b 70.5
+search c
+search 20.5
+
+bookbuyer mode
+
+add c 20.5 10005 BP BPH 2 BS
+
+bookkeeper mode
+
+sort
+print
+classify
+
+bookbuyer mode
+
+add a 120 10002 BP BPH 4 BS
+add a 121 10002 BP BPH 5 BS
+
+bookborrower mode
+
+borrow a
+
+Admin mode Test
+
+add ua 123456 xin
+add ub 123457 xin
+update ua 123456 xin
+search 123456

@@ -14,24 +14,43 @@
 void PrintBook(BookMsg book)
 {
 	cout << book.mBookName << "\t" << book.mBookPrice << "\t" << book.mBookNum\
-		<< "\t" << book.mAuthor << "\t" << book.mPublishingHouse << endl;
-}
-
-list<BookMsg>::iterator BookManager::IsBookExist(const string& bookName)
-{
-	for (auto it = mBookMap.begin(); it != mBookMap.end(); it++)
+		<< "\t" << book.mAuthor << "\t" << book.mPublishingHouse;
+	switch (book.mBookState)
 	{
-		if (it->mBookName == bookName) {
-			return it;
-		}
+	case BookState::mAvailable:
+	{
+		cout << "\t" << "Available" << endl;
+		break;
 	}
-	return mBookMap.end();
+	case BookState::mDestoryed:
+	{
+		cout << "\t" << "Destoryed" << endl;
+		break;
+	}
+	case BookState::mLost:
+	{
+		cout << "\t" << "Lost" << endl;
+		break;
+	}
+	case BookState::mOnLoan:
+	{
+		cout << "\t" << "On Loan" << endl;
+		break;
+	}
+	case BookState::mPurchasing:
+	{
+		cout << "\t" << "Purchasing" << endl;
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 bool BookManager::AddBook(const vector<string> bookMsg)
 {
-	auto it = IsBookExist(bookMsg[1]);
-	if (it != mBookMap.end())
+	auto itVec = IsBookExist(bookMsg[1]);
+	if (itVec.back() != mBookMap.end())
 	{
 		char update = false;
 		cout << "Book is exist. update?(y/n)";
@@ -39,7 +58,6 @@ bool BookManager::AddBook(const vector<string> bookMsg)
 		if (update == 'y')
 		{
 			cin.ignore(numeric_limits< streamsize >::max(), '\n');
-			mBookMap.erase(it);
 		}
 		else
 		{
@@ -47,13 +65,25 @@ bool BookManager::AddBook(const vector<string> bookMsg)
 			return false;
 		}
 	}
-	BookMsg book;
-	book.mBookName = bookMsg[1];
-	book.mBookPrice = atof(bookMsg[2].c_str());
-	book.mBookNum = atol(bookMsg[3].c_str());
-	book.mAuthor = bookMsg[4];
-	book.mPublishingHouse = bookMsg[5];
-	mBookMap.push_back(book);
+	for (auto it : itVec)
+	{
+		if (it != mBookMap.end())
+		{
+			mBookMap.erase(it);
+		}
+	}
+	for (int i = 0; i < atoi(bookMsg[6].c_str()); i++)
+	{
+		BookMsg book;
+		book.mBookName = bookMsg[1];
+		book.mBookPrice = atof(bookMsg[2].c_str());
+		book.mBookNum = atol(bookMsg[3].c_str());
+		book.mAuthor = bookMsg[4];
+		book.mPublishingHouse = bookMsg[5];
+		book.mBookState = BookState::mAvailable;
+		book.mBookSource = bookMsg[7];
+		mBookMap.push_back(book);
+	}
 	return true;
 }
 
@@ -61,7 +91,7 @@ void BookManager::PrintAllBook(list<BookMsg> bookMap)
 {
 	if (bookMap.size() != 0)
 	{
-		cout << "Name\tPrice\tNum\tauthor\tpulishing house" << endl;
+		cout << "Name\tPrice\tNum\tauthor\tpulishing house\tstate" << endl;
 		for (const auto& book : bookMap)
 		{
 			PrintBook(book);
@@ -77,20 +107,23 @@ bool BookManager::SearchBook(const string& nameOrPrice)
 {
 	cout << "Name\tPrice\tNum\tauthor\tpulishing house" << endl;
 	bool res = false;
-	auto it = IsBookExist(nameOrPrice);
-	if (it != mBookMap.end())
+	auto itVec = IsBookExist(nameOrPrice);
+	for (auto it : itVec)
 	{
-		PrintBook(*it);
-		return true;
-	}
-	else
-	{
-		for (auto it = mBookMap.begin(); it != mBookMap.end(); it++)
+		if (it != mBookMap.end())
 		{
-			if (it->mBookPrice == atof(nameOrPrice.c_str()))
+			PrintBook(*it);
+			return true;
+		}
+		else
+		{
+			for (auto it = mBookMap.begin(); it != mBookMap.end(); it++)
 			{
-				PrintBook(*it);
-				res = true;
+				if (it->mBookPrice == atof(nameOrPrice.c_str()))
+				{
+					PrintBook(*it);
+					res = true;
+				}
 			}
 		}
 	}
@@ -160,6 +193,33 @@ void BookManager::ClassifyBook()
 	cout << totalPriceup100 << " <- The total price of books above 100!" << endl;
 	mTotalPrice = totalPricelow50 + totalPricelow100 + totalPriceup100;
 	cout << mTotalPrice << " <- The total price of books." << endl;
+}
+
+vector<list<BookMsg>::iterator> BookManager::IsBookExist(const string& bookName)
+{
+	vector<list<BookMsg>::iterator> itTemp;
+	for (auto it = mBookMap.begin(); it != mBookMap.end(); it++)
+	{
+		if (it->mBookName == bookName) {
+			itTemp.push_back(it);
+		}
+	}
+	itTemp.push_back(mBookMap.end());
+	return itTemp;
+}
+
+vector<BookMsg*> BookManager::GetBook(const string& name)
+{
+	vector<BookMsg*> bookVec;
+	auto itVec = IsBookExist(name);
+	for (auto it : itVec)
+	{
+		if (it != mBookMap.end())
+		{
+			bookVec.push_back(&(*it));
+		}
+	}
+	return bookVec;
 }
 
 string BookManager::TrimString(const string& str) {

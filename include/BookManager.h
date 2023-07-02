@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "MemoryConfig.h"
+#include "BookBuyer.h"
 
 #define BOOKPRICE_LEVEL_50 50
 #define BOOKPRICE_LEVEL_100 100
@@ -26,10 +27,10 @@ public:
 	bool SearchBook(const string& nameOrPrice);
 	void SortBook();
 	void ClassifyBook();
-
+	vector<BookMsg*> GetBook(const string& name);
 	list<BookMsg> GetBookMap() { return mBookMap; }
 private:
-	list<BookMsg>::iterator  IsBookExist(const string& nameOrPrice);
+	vector<list<BookMsg>::iterator>  IsBookExist(const string& nameOrPrice);
 	string TrimString(const string& str);
 private:
 	list<BookMsg> mBookMap;

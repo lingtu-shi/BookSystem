@@ -11,16 +11,25 @@
 #include <iostream>
 
 #include "BookManager.h"
-#include "UserManager.h"
+#include "UserBase.h"
+#include "BookBuyer.h"
+#include "BookKeeper.h"
+#include "Borrower.h"
+
+#include "SystemUI.h"
 
 using namespace std;
-void GetUI();
 int main()
 {
+	SystemUI ui;
 	BookManager bookManager;
-	UserManager userManager;
+	BookService bookService(bookManager);
+	BookBuyer bookBuyer(&bookService);
+	BookKeeper bookKeeper(&bookService);
+	Borrower borrower(&bookService);
+	int mode = DEFAULT_MODE;
+	ui.GetUI();
 	string input;
-	GetUI();
 	while (true)
 	{
 		input = "";
@@ -37,108 +46,262 @@ int main()
 		{
 			command.push_back(parameter); // 将切割后的字符串添加到vector中
 		}
-
 		bool res;
-		if (command[0] == "badd")
+		if (mode == 0)
 		{
-			if (command.size() != 6 || atof(command[2].c_str()) == 0)
+			if (command[0] == "b" || command[0] == "borrower")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				mode = BORROWER_MODE;
+				ui.GetBorrowerUI();
+			}
+			else if (command[0] == "k" || command[0] == "keeper")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				mode = KEEPER_MODE;
+				ui.GetKeeperUI();
+			}
+			else if (command[0] == "bu" || command[0] == "buyer")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				mode = BUYER_MODE;
+				ui.GetBuyerUI();
+			}
+			else if (command[0] == "a" || command[0] == "admin")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				mode = ADMIN_MODE;
+				ui.GetAdminUI();
+			}
+			else if (command[0] == "help" || command[0] == "h")
+			{
+				ui.GetUI();
+				continue;
+			}
+			else if (command[0] == "quit" || command[0] == "q")
+			{
+				break;
+			}
+			else
 			{
 				cout << "Input Error!" << endl;
 				continue;
 			}
-			res = bookManager.AddBook(command);
 		}
-		else if (command[0] == "bprint")
+		else if (mode == BORROWER_MODE)
 		{
-			if (command.size() != 1)
+			if (command[0] == "print")
 			{
-				cout << "Input Error!" << endl;
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.PrintBook();
+			}
+			else if (command[0] == "search")
+			{
+				if (command.size() != 2 && command.size() != 3)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SearchBook(command[1]);
+			}
+			else if (command[0] == "borrow")
+			{
+				if (command.size() != 2)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SetBookState(command[1], BookState::mAvailable, BookState::mOnLoan);
+			}
+			else if (command[0] == "help" || command[0] == "h")
+			{
+				ui.GetKeeperUI();
 				continue;
 			}
-			bookManager.PrintAllBook(bookManager.GetBookMap());
-		}
-		else if (command[0] == "bsearch")
-		{
-			if (command.size() != 2 && command.size() != 3)
+			else if (command[0] == "quit" || command[0] == "q")
 			{
-				cout << "Input Error!" << endl;
+				mode = DEFAULT_MODE;
+				ui.GetUI();
 				continue;
 			}
-			bookManager.SearchBook(command[1]);
-		}
-		else if (command[0] == "bsort")
-		{
-			if (command.size() != 1)
+			else
 			{
 				cout << "Input Error!" << endl;
+			}
+		}
+		else if (mode == KEEPER_MODE)
+		{
+			if (command[0] == "print")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.PrintBook();
+			}
+			else if (command[0] == "search")
+			{
+				if (command.size() != 2 && command.size() != 3)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SearchBook(command[1]);
+			}
+			else if (command[0] == "sort")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SortBook();
+			}
+			else if (command[0] == "classify")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.ClassifyBook();
+			}
+			else if (command[0] == "setstate")
+			{
+				if (command.size() != 4)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SetBookState(command[1], bookService.SetBookState(command[2]), bookService.SetBookState(command[3]));
+			}
+			else if (command[0] == "help" || command[0] == "h")
+			{
+				ui.GetKeeperUI();
 				continue;
 			}
-			bookManager.SortBook();
-		}
-		else if (command[0] == "bclassify")
-		{
-			if (command.size() != 1)
+			else if (command[0] == "quit" || command[0] == "q")
+			{
+				mode = DEFAULT_MODE;
+				ui.GetUI();
+				continue;
+			}
+			else
 			{
 				cout << "Input Error!" << endl;
+			}
+		}
+		else if (mode == BUYER_MODE)
+		{
+			if (command[0] == "add")
+			{
+				if (command.size() != 8 || atof(command[2].c_str()) == 0)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				res = bookBuyer.AddBook(command);
+			}
+			else if (command[0] == "print")
+			{
+				if (command.size() != 1)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookBuyer.PrintBook();
+			}
+			else if (command[0] == "search")
+			{
+				if (command.size() != 2 && command.size() != 3)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookBuyer.SearchBook(command[1]);
+			}
+			else if (command[0] == "help" || command[0] == "h")
+			{
+				ui.GetBuyerUI();
 				continue;
 			}
-			bookManager.ClassifyBook();
-		}
-		else if (command[0] == "uadd")
-		{
-			if (command.size() != 4 || atof(command[2].c_str()) == 0)
+			else if (command[0] == "quit" || command[0] == "q")
+			{
+				mode = DEFAULT_MODE;
+				ui.GetUI();
+				continue;
+			}
+			else
 			{
 				cout << "Input Error!" << endl;
+			}
+		}
+		else if (mode == ADMIN_MODE)
+		{
+			if (command[0] == "add")
+			{
+				if (command.size() != 4 || atof(command[2].c_str()) == 0)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				res = bookKeeper.AddUser(command);
+			}
+			else if (command[0] == "update")
+			{
+				if (command.size() != 4 || atol(command[2].c_str()) == 0)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				res = bookKeeper.UpdateUser(command);
+			}
+			else if (command[0] == "search")
+			{
+				if (command.size() != 2 && atol(command[1].c_str()) == 0)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.SearchUser(atol(command[1].c_str()));
+			}
+			else if (command[0] == "help" || command[0] == "h")
+			{
+				ui.GetAdminUI();
 				continue;
 			}
-			res = userManager.AddUser(command);
-		}
-		else if (command[0] == "uupdate")
-		{
-			if (command.size() != 4 || atol(command[2].c_str()) == 0)
+			else if (command[0] == "quit" || command[0] == "q")
+			{
+				mode = DEFAULT_MODE;
+				ui.GetUI();
+				continue;
+			}
+			else
 			{
 				cout << "Input Error!" << endl;
-				continue;
 			}
-			res = userManager.UpdateUser(command);
-		}
-		else if (command[0] == "usearch")
-		{
-			if (command.size() != 2 && atol(command[1].c_str()) == 0)
-			{
-				cout << "Input Error!" << endl;
-				continue;
-			}
-			userManager.SearchUser(atol(command[1].c_str()));
-		}
-		else if (command[0] == "help" || command[0] == "h")
-		{
-			GetUI();
-			continue;
-		}
-		else if (command[0] == "quit" || command[0] == "q")
-		{
-			break;
-		}
-		else
-		{
-			cout << "Input Error!" << endl;
 		}
 	}
 	return 0;
-}
-
-void GetUI()
-{
-	cout << "*****Input command:(command parameters)*****" << endl;
-	cout << "badd [BookName] [BookPrice] [BookNum] [Author] [Pulishing house]" << endl;
-	cout << "bprint : to print all books" << endl;
-	cout << "bsearch [BookName/BookPrice/BookName BookPrice]  : to search book" << endl;
-	cout << "bsort : to sort book map" << endl;
-	cout << "bclassify : to divided into three categories by book price(~50,50~100,100~)" << endl;
-	cout << "uadd [UserName] [UserNum] [Department]" << endl;
-	cout << "uupdate [UserName] [UserNum] [Department]" << endl;
-	cout << "usearch [UserNum]" << endl;
-	cout << "help/h : to get help" << endl;
-	cout << "quit/q : to exit" << endl << endl;
 }

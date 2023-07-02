@@ -1,16 +1,21 @@
 /*
  * @Author: Administrator
  * @Date: June 2023
- * @FilePath: UserManager.cpp
+ * @FilePath: UserBase.cpp
  * Copyright (c) 2023 by BAOSIGHT,All Rights Reserved. 
- * @Description: define UserManager
+ * @Description: define UserBase
  */
 
 #include <iostream>
 
-#include "UserManager.h"
+#include "UserBase.h"
+UserBase::UserBase(BookService* bookService)
+{
+	mBookService = bookService;
+	mBookManager = bookService->GetBookManager();
+}
 
-list<UserMsg>::iterator UserManager::IsUserExist(const long long& userNum)
+list<UserMsg>::iterator UserBase::IsUserExist(const long long& userNum)
 {
 	for (auto it = mUserMap.begin(); it != mUserMap.end(); it++)
 	{
@@ -21,7 +26,7 @@ list<UserMsg>::iterator UserManager::IsUserExist(const long long& userNum)
 	return mUserMap.end();
 }
 
-bool UserManager::AddUser(const vector<string>& userMsg)
+bool UserBase::AddUser(const vector<string>& userMsg)
 {
 	auto it = IsUserExist(atol(userMsg[2].c_str()));
 	if (it != mUserMap.end())
@@ -48,7 +53,7 @@ bool UserManager::AddUser(const vector<string>& userMsg)
 	return true;
 }
 
-bool UserManager::UpdateUser(const vector<string>& userMsg)
+bool UserBase::UpdateUser(const vector<string>& userMsg)
 {
 	auto it = IsUserExist(atol(userMsg[2].c_str()));
 	if (it == mUserMap.end())
@@ -64,7 +69,7 @@ bool UserManager::UpdateUser(const vector<string>& userMsg)
 	return true;
 }
 
-bool UserManager::SearchUser(const long long& userNum)
+bool UserBase::SearchUser(const long long& userNum)
 {
 	cout << "Name\tNum\tDepartment" << endl;
 	auto it = IsUserExist(userNum);
@@ -80,4 +85,22 @@ bool UserManager::SearchUser(const long long& userNum)
 		cout << userNum << " not find!" << endl;
 	}
 	return false;
+}
+bool UserBase::SearchBook(const string& nameOrPrice)
+{
+	if (mBookManager->SearchBook(nameOrPrice))
+	{
+		return true;
+	}
+	return false;
+}
+
+void UserBase::PrintBook()
+{
+	mBookManager->PrintAllBook(mBookManager->GetBookMap());
+}
+
+void UserBase::GetBookStatus(const string& name)
+{
+	SearchBook(name);
 }

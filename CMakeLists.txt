@@ -8,13 +8,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 SET(INCLUDE_PATH
-	./include
+	include
+	UI/include
 )
 include_directories(${INCLUDE_PATH})       
 
 file(GLOB SOURCE_CPP
 	*.cpp
 	src/*.cpp
+	UI/src/*.cpp
 )
 add_executable (${CMAKE_PROJECT_NAME}
 	${SOURCE_CPP}

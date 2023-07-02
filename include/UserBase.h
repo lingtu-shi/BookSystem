@@ -3,7 +3,7 @@
  * @Date: June 2023
  * @FilePath: UserManager.h
  * Copyright (c) 2023 by BAOSIGHT,All Rights Reserved. 
- * @Description: define UserManager
+ * @Description: define UserBase
  */
 
 #pragma once
@@ -13,16 +13,23 @@
 #include <vector>
 
 #include "MemoryConfig.h"
+#include "BookService.h"
 
 using namespace std;
-class UserManager
+class UserBase
 {
 public:
+	UserBase(BookService* bookService);
 	bool AddUser(const vector<string>& userMsg);
 	bool UpdateUser(const vector<string>& userMsg);
 	bool SearchUser(const long long& userNum);
-private:
+	bool SearchBook(const string& nameOrPrice);
+	void PrintBook();
+	void GetBookStatus(const string& name);
+protected:
 	list<UserMsg>::iterator IsUserExist(const long long& userNum);
-private:
+protected:
+	BookService* mBookService;
+	BookManager* mBookManager;
 	list<UserMsg> mUserMap;
 };

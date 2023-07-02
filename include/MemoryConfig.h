@@ -9,18 +9,38 @@
 #pragma once
 using namespace std;
 
-typedef struct _BookMsg
+enum BookState
+{
+	mAvailable = 0,
+	mLost = 1,
+	mDestoryed = 2,
+	mOnLoan = 3,
+	mPurchasing
+};
+
+typedef struct
 {
 	string mBookName;
 	long long mBookNum;
 	float mBookPrice;
 	string mAuthor;
 	string mPublishingHouse;
+	string mBookSource;
+	BookState mBookState;
+	string mHolder;
 }BookMsg;
 
-typedef struct _UserMsg
+typedef struct
 {
 	long long mUserNum;
 	string mUserName;
 	string mDepartment;
 }UserMsg;
+
+typedef struct
+{
+	string mBookName;
+	string mSource;
+	unsigned int mCount;
+	float mPrice;
+}PurchaseRecord;
