@@ -41,7 +41,8 @@ void SystemUI::GetKeeperUI()
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "sort : to sort book map" << endl;
 	cout << "classify : to divided into three categories by book price(~50,50~100,100~)" << endl;
-	cout << "setstate [BookName] [BookLastState] [BookState]: to borrow book" << endl;
+	cout << "setstate [BookName] [BookLastState] [BookState]: to set BookState" << endl;
+	cout << "==>BookState[]={ Available(/a), Lost(/l), Destoryed(/d), OnLoan(/o), Purchasing(/p)}" << endl;
 	cout << "help/h : to get help" << endl;
 	cout << "quit/q : to exit" << endl << endl;
 }
@@ -53,6 +54,8 @@ void SystemUI::GetBorrowerUI()
 	cout << "print : to print all books" << endl;
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "borrow [BookName] : to borrow book" << endl;
+	cout << "return [BookName] : to return book" << endl;
+	cout << "lost [BookName] : to register lost book" << endl;
 	cout << "help/h : to get help" << endl;
 	cout << "quit/q : to exit" << endl << endl;
 }

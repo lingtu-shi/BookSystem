@@ -114,7 +114,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				bookKeeper.PrintBook();
+				borrower.PrintBook();
 			}
 			else if (command[0] == "search")
 			{
@@ -123,7 +123,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				bookKeeper.SearchBook(command[1]);
+				borrower.SearchBook(command[1]);
 			}
 			else if (command[0] == "borrow")
 			{
@@ -132,7 +132,25 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				bookKeeper.SetBookState(command[1], BookState::mAvailable, BookState::mOnLoan);
+				borrower.SetBookState(command[1], BookState::mAvailable, BookState::mOnLoan);
+			}
+			else if (command[0] == "return")
+			{
+				if (command.size() != 2)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				borrower.SetBookState(command[1], BookState::mOnLoan, BookState::mAvailable);
+			}
+			else if (command[0] == "lost")
+			{
+				if (command.size() != 2)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				borrower.SetBookState(command[1], BookState::mAvailable, BookState::mLost);
 			}
 			else if (command[0] == "help" || command[0] == "h")
 			{

@@ -113,7 +113,7 @@ bool BookManager::SearchBook(const string& nameOrPrice)
 		if (it != mBookMap.end())
 		{
 			PrintBook(*it);
-			return true;
+			res = true;
 		}
 		else
 		{

@@ -39,6 +39,18 @@ bool BookService::SetBookState(const string& bookName, BookState lastState, Book
 				{
 					return false;
 				}
+				if (state == BookState::mDestoryed && lastState != BookState::mAvailable)
+				{
+					return false;
+				}
+				if (state != BookState::mDestoryed && lastState == BookState::mDestoryed)
+				{
+					return false;
+				}
+				if (state != BookState::mAvailable && lastState == BookState::mPurchasing)
+				{
+					return false;
+				}
 				book->mBookState = state;
 				return true;
 			}
@@ -71,23 +83,23 @@ string BookService::GetBookState(BookState state)
 
 BookState BookService::SetBookState(string state)
 {
-	if (state == "mAvailable")
+	if (state == "Available" || state == "a")
 	{
 		return BookState::mAvailable;
 	}
-	else if (state == "mLost")
+	else if (state == "Lost" || state == "l")
 	{
 		return BookState::mLost;
 	}
-	else if (state == "mDestoryed")
+	else if (state == "Destoryed" || state == "d")
 	{
 		return BookState::mDestoryed;
 	}
-	else if (state == "mOnLoan")
+	else if (state == "OnLoan" || state == "o")
 	{
 		return BookState::mOnLoan;
 	}
-	else if (state == "mPurchasing")
+	else if (state == "Purchasing" || state == "p")
 	{
 		return BookState::mPurchasing;
 	}
