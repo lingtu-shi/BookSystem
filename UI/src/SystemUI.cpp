@@ -26,7 +26,7 @@ void SystemUI::GetBuyerUI()
 	cout << "*****Buyer Mode*****" << endl;
 	cout << "*****Input command:(command parameters)*****" << endl;
 	cout << "add [BookName] [BookPrice] [BookNum] [Author] \
-	[Pulishing house] [Count] [Purchase Source]" << endl;
+[Pulishing house] [Count] [Purchase Source]" << endl;
 	cout << "print : to print all books" << endl;
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "help/h : to get help" << endl;

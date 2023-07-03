@@ -12,7 +12,6 @@
 #include <list>
 #include <vector>
 
-#include "MemoryConfig.h"
 #include "BookService.h"
 
 using namespace std;

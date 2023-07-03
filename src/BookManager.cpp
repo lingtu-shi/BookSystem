@@ -91,7 +91,7 @@ void BookManager::PrintAllBook(list<BookMsg> bookMap)
 {
 	if (bookMap.size() != 0)
 	{
-		cout << "Name\tPrice\tNum\tauthor\tpulishing house\tstate" << endl;
+		cout << "Name\tPrice\tNum\tAuthor\tPulishingHouse\tState" << endl;
 		for (const auto& book : bookMap)
 		{
 			PrintBook(book);
@@ -105,8 +105,8 @@ void BookManager::PrintAllBook(list<BookMsg> bookMap)
 
 bool BookManager::SearchBook(const string& nameOrPrice)
 {
-	cout << "Name\tPrice\tNum\tauthor\tpulishing house" << endl;
-	bool res = false;
+    cout << "Name\tPrice\tNum\tAuthor\tPulishingHouse\tState" << endl;
+    bool res = false;
 	auto itVec = IsBookExist(nameOrPrice);
 	for (auto it : itVec)
 	{

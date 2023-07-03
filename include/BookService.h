@@ -7,7 +7,6 @@
  */
 #pragma once
 #include "BookManager.h"
-#include "MemoryConfig.h"
 
 class BookService
 {

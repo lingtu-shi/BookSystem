@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "MemoryConfig.h"
-#include "BookBuyer.h"
 
 #define BOOKPRICE_LEVEL_50 50
 #define BOOKPRICE_LEVEL_100 100
