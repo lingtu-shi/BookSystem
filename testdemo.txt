@@ -1,9 +1,17 @@
 BookManager Test
 
+admin mode
+
+add buy 101 DP1 buyer
+add kep 102 DP1 keeper
+add bor 103 DP1 borrower
+print
+search 102
+
 bookbuyer mode
 
 add b 70.5 10003 BP BPH 2 BS
-add e 20.5 10001 BP BPH 1 BS
+add c 20.3 10001 BP BPH 1 BS
 add a 120 10002 BP BPH 2 BS
 print
 
@@ -11,11 +19,13 @@ bookkeeper mode
 
 classify
 sort
+classify
 print
 
 bookbuyer mode
 
 add d 102 10004 BP BPH 3 BS
+print
 
 bookkeeper mode
 
@@ -24,30 +34,18 @@ print
 search a
 search b 70.5
 search c
-search 20.5
+search 20.3 //error
 
 bookbuyer mode
 
-add c 20.5 10005 BP BPH 2 BS
-
-bookkeeper mode
-
-sort
-print
-classify
-
-bookbuyer mode
-
-add a 120 10002 BP BPH 4 BS
-add a 121 10002 BP BPH 5 BS
+add c 40.5 10005 BP BPH 2 BS
+printBS //TODO: not found
 
 bookborrower mode
 
 borrow a
-
-Admin mode Test
-
-add ua 123456 xin
-add ub 123457 xin
-update ua 123456 xin
-search 123456
+borrow a
+borrow b
+return a
+lost a
+return b

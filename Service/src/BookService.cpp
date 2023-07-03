@@ -9,9 +9,10 @@
 #include <iostream>
 
 using namespace std;
-BookService::BookService(BookManager& bookManager)
+BookService::BookService(BookManager& bookManager, UserManager& userManager)
 {
 	mBookManager = bookManager;
+	mUserManager = userManager;
 }
 
 void BookService::GetBookState(const string& bookName)
@@ -28,6 +29,11 @@ void BookService::GetBookState(const string& bookName)
 
 bool BookService::SetBookState(const string& bookName, BookState lastState, BookState state)
 {
+	if (lastState == BookState::mBookError || state == BookState::mBookError)
+	{
+		cout << "Error: Input state error!" << endl;
+		return false;
+	}
 	auto bookVec = mBookManager.GetBook(bookName);
 	for (auto book : bookVec)
 	{
@@ -81,7 +87,7 @@ string BookService::GetBookState(BookState state)
 	return BookState[state];
 }
 
-BookState BookService::SetBookState(string state)
+BookState BookService::SetBookState(const string& state)
 {
 	if (state == "Available" || state == "a")
 	{
@@ -103,5 +109,5 @@ BookState BookService::SetBookState(string state)
 	{
 		return BookState::mPurchasing;
 	}
-	return BookState();
+	return BookState::mBookError;
 }

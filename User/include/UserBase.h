@@ -19,16 +19,10 @@ class UserBase
 {
 public:
 	UserBase(BookService* bookService);
-	bool AddUser(const vector<string>& userMsg);
-	bool UpdateUser(const vector<string>& userMsg);
-	bool SearchUser(const long long& userNum);
 	bool SearchBook(const string& nameOrPrice);
 	void PrintBook();
 	void GetBookStatus(const string& name);
 protected:
-	list<UserMsg>::iterator IsUserExist(const long long& userNum);
-protected:
 	BookService* mBookService;
 	BookManager* mBookManager;
-	list<UserMsg> mUserMap;
 };

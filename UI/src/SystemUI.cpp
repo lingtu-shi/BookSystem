@@ -16,7 +16,7 @@ void SystemUI::GetUI()
 	cout << "b/borrower : enter borrower mode" << endl;
 	cout << "k/keeper : enter keeper mode" << endl;
 	cout << "bu/buyer : enter buyer mode" << endl;
-	cout << "a/admin : enter admin mode" << endl;
+	cout << "a/admin : enter UserManager" << endl;
 	cout << "help/h : to get help" << endl;
 	cout << "quit/q : to exit" << endl << endl;
 }
@@ -64,9 +64,11 @@ void SystemUI::GetAdminUI()
 {
 	cout << "*****Admin Mode*****" << endl;
 	cout << "*****Input command:(command parameters)*****" << endl;
-	cout << "add [UserName] [UserNum] [Department]" << endl;
-	cout << "update [UserName] [UserNum] [Department]" << endl;
+	cout << "add [UserName] [UserNum] [Department] [UserStatus]" << endl;
+	cout << "==>UserStatus[]={ borrower(/b), keeper(/k), buyer(/bu)}" << endl;
+	cout << "update [UserName] [UserNum] [Department] [UserStatus]" << endl;
 	cout << "search [UserNum]" << endl;
+	cout << "print : to print all user" << endl;
 	cout << "help/h : to get help" << endl;
 	cout << "quit/q : to exit" << endl << endl;
 }

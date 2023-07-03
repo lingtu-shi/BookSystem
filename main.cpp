@@ -12,6 +12,7 @@
 
 #include "BookManager.h"
 #include "BookService.h"
+#include "UserManager.h"
 
 #include "BookBuyer.h"
 #include "BookKeeper.h"
@@ -24,7 +25,8 @@ int main()
 {
 	SystemUI ui;
 	BookManager bookManager;
-	BookService bookService(bookManager);
+	UserManager userManager;
+	BookService bookService(bookManager, userManager);
 	BookBuyer bookBuyer(&bookService);
 	BookKeeper bookKeeper(&bookService);
 	Borrower borrower(&bookService);
@@ -48,11 +50,11 @@ int main()
 			command.push_back(parameter); // 将切割后的字符串添加到vector中
 		}
 		bool res;
-		if (mode == 0)
+		if (mode == DEFAULT_MODE)
 		{
 			if (command[0] == "b" || command[0] == "borrower")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -62,7 +64,7 @@ int main()
 			}
 			else if (command[0] == "k" || command[0] == "keeper")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -72,7 +74,7 @@ int main()
 			}
 			else if (command[0] == "bu" || command[0] == "buyer")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -82,7 +84,7 @@ int main()
 			}
 			else if (command[0] == "a" || command[0] == "admin")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -109,7 +111,7 @@ int main()
 		{
 			if (command[0] == "print")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -118,7 +120,7 @@ int main()
 			}
 			else if (command[0] == "search")
 			{
-				if (command.size() != 2 && command.size() != 3)
+				if (command.size() != ONE_PARAM && command.size() != TWO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -127,7 +129,7 @@ int main()
 			}
 			else if (command[0] == "borrow")
 			{
-				if (command.size() != 2)
+				if (command.size() != ONE_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -136,7 +138,7 @@ int main()
 			}
 			else if (command[0] == "return")
 			{
-				if (command.size() != 2)
+				if (command.size() != ONE_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -145,16 +147,16 @@ int main()
 			}
 			else if (command[0] == "lost")
 			{
-				if (command.size() != 2)
+				if (command.size() != ONE_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				borrower.SetBookState(command[1], BookState::mAvailable, BookState::mLost);
+				borrower.SetBookState(command[1], BookState::mOnLoan, BookState::mLost);
 			}
 			else if (command[0] == "help" || command[0] == "h")
 			{
-				ui.GetKeeperUI();
+				ui.GetBorrowerUI();
 				continue;
 			}
 			else if (command[0] == "quit" || command[0] == "q")
@@ -172,7 +174,7 @@ int main()
 		{
 			if (command[0] == "print")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -181,7 +183,7 @@ int main()
 			}
 			else if (command[0] == "search")
 			{
-				if (command.size() != 2 && command.size() != 3)
+				if (command.size() != ONE_PARAM && command.size() != TWO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -190,7 +192,7 @@ int main()
 			}
 			else if (command[0] == "sort")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -199,7 +201,7 @@ int main()
 			}
 			else if (command[0] == "classify")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -208,7 +210,7 @@ int main()
 			}
 			else if (command[0] == "setstate")
 			{
-				if (command.size() != 4)
+				if (command.size() != SET_BOOK_STATE_COM_NUM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -235,7 +237,7 @@ int main()
 		{
 			if (command[0] == "add")
 			{
-				if (command.size() != 8 || atof(command[2].c_str()) == 0)
+				if (command.size() != ADD_BOOK_COM_NUM || atof(command[2].c_str()) == 0)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -244,7 +246,7 @@ int main()
 			}
 			else if (command[0] == "print")
 			{
-				if (command.size() != 1)
+				if (command.size() != NO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -253,7 +255,7 @@ int main()
 			}
 			else if (command[0] == "search")
 			{
-				if (command.size() != 2 && command.size() != 3)
+				if (command.size() != ONE_PARAM && command.size() != TWO_PARAM)
 				{
 					cout << "Input Error!" << endl;
 					continue;
@@ -280,30 +282,39 @@ int main()
 		{
 			if (command[0] == "add")
 			{
-				if (command.size() != 4 || atof(command[2].c_str()) == 0)
+				if (command.size() != ADD_USER_COM_NUM || atof(command[2].c_str()) == 0)
 				{
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				res = bookKeeper.AddUser(command);
+				res = userManager.AddUser(command);
 			}
 			else if (command[0] == "update")
 			{
-				if (command.size() != 4 || atol(command[2].c_str()) == 0)
+				if (command.size() != UPDATE_USER_COM_NUM || atol(command[2].c_str()) == 0)
 				{
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				res = bookKeeper.UpdateUser(command);
+				res = userManager.UpdateUser(command);
 			}
 			else if (command[0] == "search")
 			{
-				if (command.size() != 2 && atol(command[1].c_str()) == 0)
+				if (command.size() != ONE_PARAM && atol(command[1].c_str()) == 0)
 				{
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				bookKeeper.SearchUser(atol(command[1].c_str()));
+				userManager.SearchUser(atol(command[1].c_str()));
+			}
+			else if (command[0] == "print")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				userManager.PrintUser();
 			}
 			else if (command[0] == "help" || command[0] == "h")
 			{

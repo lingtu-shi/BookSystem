@@ -117,11 +117,12 @@ bool BookManager::SearchBook(const string& nameOrPrice)
 		}
 		else
 		{
-			for (auto it = mBookMap.begin(); it != mBookMap.end(); it++)
+			for (auto it : mBookMap)
 			{
-				if (it->mBookPrice == atof(nameOrPrice.c_str()))
+				if ((it.mBookPrice - (float)atof(nameOrPrice.c_str())) < 0.01\
+					&& (it.mBookPrice - (float)atof(nameOrPrice.c_str())) > -0.01)
 				{
-					PrintBook(*it);
+					PrintBook(it);
 					res = true;
 				}
 			}

@@ -15,7 +15,16 @@ enum BookState
 	mLost = 1,
 	mDestoryed = 2,
 	mOnLoan = 3,
-	mPurchasing
+	mPurchasing = 4,
+	mBookError = 99
+};
+
+enum UserStatus
+{
+	mBookBuyer = 0,
+	mBookKeeper = 1,
+	mBorrower = 2,
+	mUserError = 99
 };
 
 typedef struct
@@ -35,6 +44,7 @@ typedef struct
 	long long mUserNum;
 	string mUserName;
 	string mDepartment;
+	UserStatus mStatus;
 }UserMsg;
 
 typedef struct
