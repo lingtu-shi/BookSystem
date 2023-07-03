@@ -34,7 +34,7 @@ print
 search a
 search b 70.5
 search c
-search 20.3 //error
+search 20.3
 
 bookbuyer mode
 
