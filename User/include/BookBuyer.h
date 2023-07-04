@@ -13,6 +13,7 @@ class BookBuyer : public UserBase
 public:
 	BookBuyer(BookService* bookService);
 	bool AddBook(const vector<string> bookMsg);
+	void PrintBookBS();
 
 private:
 	void RegisterPurchase(vector<string> bookMsg);

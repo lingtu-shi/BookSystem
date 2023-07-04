@@ -1,51 +1,76 @@
 BookManager Test
 
-admin mode
+#admin mode
 
+a
 add buy 101 DP1 buyer
 add kep 102 DP1 keeper
 add bor 103 DP1 borrower
 print
 search 102
+q
 
-bookbuyer mode
+#bookbuyer mode
 
+bu
+101
 add b 70.5 10003 BP BPH 2 BS
-add c 20.3 10001 BP BPH 1 BS
+add c 20.3 10001 BP BPH 3 BS
 add a 120 10002 BP BPH 2 BS
 print
+q
 
-bookkeeper mode
+#bookkeeper mode
 
+k
+102
 classify
 sort
 classify
 print
+q
 
-bookbuyer mode
+#bookbuyer mode
 
+bu
+101
 add d 102 10004 BP BPH 3 BS
 print
+q
 
-bookkeeper mode
+#bookkeeper mode
 
+k
+102
 sort
 print
 search a
 search b 70.5
 search c
 search 20.3
+q
 
-bookbuyer mode
+#bookbuyer mode
 
+bu
+101
 add c 40.5 10005 BP BPH 2 BS
-printBS //TODO: not found
+printBS
+q
 
-bookborrower mode
+#bookborrower mode
 
+b
+103
 borrow a
 borrow a
 borrow b
 return a
 lost a
 return b
+print
+q
+
+#quit system
+
+q

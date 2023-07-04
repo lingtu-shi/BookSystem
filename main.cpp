@@ -24,13 +24,14 @@ using namespace std;
 int main()
 {
 	SystemUI ui;
-	BookManager bookManager;
-	UserManager userManager;
+	BookManager* bookManager = new BookManager();
+	UserManager* userManager = new UserManager();
 	BookService bookService(bookManager, userManager);
 	BookBuyer bookBuyer(&bookService);
 	BookKeeper bookKeeper(&bookService);
 	Borrower borrower(&bookService);
 	int mode = DEFAULT_MODE;
+	long long enterUser = -1;
 	ui.GetUI();
 	string input;
 	while (true)
@@ -60,7 +61,7 @@ int main()
 					continue;
 				}
 				mode = BORROWER_MODE;
-				ui.GetBorrowerUI();
+				cout << "Enter User Num:" << endl;
 			}
 			else if (command[0] == "k" || command[0] == "keeper")
 			{
@@ -70,7 +71,7 @@ int main()
 					continue;
 				}
 				mode = KEEPER_MODE;
-				ui.GetKeeperUI();
+				cout << "Enter User Num:" << endl;
 			}
 			else if (command[0] == "bu" || command[0] == "buyer")
 			{
@@ -80,7 +81,7 @@ int main()
 					continue;
 				}
 				mode = BUYER_MODE;
-				ui.GetBuyerUI();
+				cout << "Enter User Num:" << endl;
 			}
 			else if (command[0] == "a" || command[0] == "admin")
 			{
@@ -109,6 +110,29 @@ int main()
 		}
 		else if (mode == BORROWER_MODE)
 		{
+			if (enterUser == -1)
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					cout << "Enter User Num:" << endl;
+					continue;
+				}
+				enterUser = atoi(command[0].c_str());
+				if (bookService.GetUserManager()->MatchUser(enterUser, "borrower"))
+				{
+					ui.GetBorrowerUI();
+					continue;
+				}
+				else
+				{
+					cout << "WARN: user not found!" << endl;
+					enterUser = -1;
+					mode = DEFAULT_MODE;
+					ui.GetUI();
+					continue;
+				}
+			}
 			if (command[0] == "print")
 			{
 				if (command.size() != NO_PARAM)
@@ -134,6 +158,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
+				//TODO: Apply Keeper
 				borrower.SetBookState(command[1], BookState::mAvailable, BookState::mOnLoan);
 			}
 			else if (command[0] == "return")
@@ -162,16 +187,41 @@ int main()
 			else if (command[0] == "quit" || command[0] == "q")
 			{
 				mode = DEFAULT_MODE;
+				enterUser = -1;
 				ui.GetUI();
 				continue;
 			}
 			else
 			{
+				cout << command[0] << endl;
 				cout << "Input Error!" << endl;
 			}
 		}
 		else if (mode == KEEPER_MODE)
 		{
+			if (enterUser == -1)
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					cout << "Enter User Num:" << endl;
+					continue;
+				}
+				enterUser = atoi(command[0].c_str());
+				if (bookService.GetUserManager()->MatchUser(enterUser, "keeper"))
+				{
+					ui.GetKeeperUI();
+					continue;
+				}
+				else
+				{
+					cout << "WARN: user not found!" << endl;
+					enterUser = -1;
+					mode = DEFAULT_MODE;
+					ui.GetUI();
+					continue;
+				}
+			}
 			if (command[0] == "print")
 			{
 				if (command.size() != NO_PARAM)
@@ -225,6 +275,7 @@ int main()
 			else if (command[0] == "quit" || command[0] == "q")
 			{
 				mode = DEFAULT_MODE;
+				enterUser = -1;
 				ui.GetUI();
 				continue;
 			}
@@ -235,6 +286,29 @@ int main()
 		}
 		else if (mode == BUYER_MODE)
 		{
+			if (enterUser == -1)
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					cout << "Enter User Num:" << endl;
+					continue;
+				}
+				enterUser = atoi(command[0].c_str());
+				if (bookService.GetUserManager()->MatchUser(enterUser, "buyer"))
+				{
+					ui.GetBuyerUI();
+					continue;
+				}
+				else
+				{
+					cout << "WARN: user not found!" << endl;
+					enterUser = -1;
+					mode = DEFAULT_MODE;
+					ui.GetUI();
+					continue;
+				}
+			}
 			if (command[0] == "add")
 			{
 				if (command.size() != ADD_BOOK_COM_NUM || atof(command[2].c_str()) == 0)
@@ -253,6 +327,15 @@ int main()
 				}
 				bookBuyer.PrintBook();
 			}
+			else if (command[0] == "printBS")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookBuyer.PrintBookBS();
+			}
 			else if (command[0] == "search")
 			{
 				if (command.size() != ONE_PARAM && command.size() != TWO_PARAM)
@@ -270,6 +353,7 @@ int main()
 			else if (command[0] == "quit" || command[0] == "q")
 			{
 				mode = DEFAULT_MODE;
+				enterUser = -1;
 				ui.GetUI();
 				continue;
 			}
@@ -287,7 +371,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				res = userManager.AddUser(command);
+				res = userManager->AddUser(command);
 			}
 			else if (command[0] == "update")
 			{
@@ -296,7 +380,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				res = userManager.UpdateUser(command);
+				res = userManager->UpdateUser(command);
 			}
 			else if (command[0] == "search")
 			{
@@ -305,7 +389,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				userManager.SearchUser(atol(command[1].c_str()));
+				userManager->SearchUser(atol(command[1].c_str()));
 			}
 			else if (command[0] == "print")
 			{
@@ -314,7 +398,7 @@ int main()
 					cout << "Input Error!" << endl;
 					continue;
 				}
-				userManager.PrintUser();
+				userManager->PrintUser();
 			}
 			else if (command[0] == "help" || command[0] == "h")
 			{
@@ -333,5 +417,7 @@ int main()
 			}
 		}
 	}
+	delete bookManager;
+	delete userManager;
 	return 0;
 }

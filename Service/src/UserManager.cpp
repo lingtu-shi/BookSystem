@@ -12,6 +12,11 @@
 
 list<UserMsg>::iterator UserManager::IsUserExist(const long long& userNum)
 {
+	//for test
+	//if (mUserMap.size() == 0)
+	//{
+	//	cout << "WARN: NO user in system!" << endl;
+	//}
 	for (auto it = mUserMap.begin(); it != mUserMap.end(); it++)
 	{
 		if (it->mUserNum == userNum) {
@@ -88,6 +93,19 @@ bool UserManager::SearchUser(const long long& userNum)
 	{
 		cout << "..." << endl;
 		cout << userNum << " not find!" << endl;
+	}
+	return false;
+}
+
+bool UserManager::MatchUser(const long long& userNum, const string& status)
+{
+	auto it = IsUserExist(userNum);
+	if (it != mUserMap.end())
+	{
+		if (SetUserStatus(status) == it->mStatus)
+		{
+			return true;
+		}
 	}
 	return false;
 }

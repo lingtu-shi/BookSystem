@@ -16,6 +16,5 @@ Borrower::Borrower(BookService* bookService) : UserBase(bookService)
 
 bool Borrower::SetBookState(const string& name, BookState lastState, BookState state)
 {
-	//TODO: apply for SetState
 	return mBookService->SetBookState(name, lastState, state);
 }

@@ -2,5 +2,4 @@
 A test project of book system
 
 //TODO:
-1.½èÊéÀà²Ù×÷ÉêÇëÑéÖ¤
-2.´òÓ¡²É¹ºÔ±²É¹ºÐÅÏ¢µ¥
+1.å€Ÿä¹¦ç±»æ“ä½œç”³è¯·éªŒè¯

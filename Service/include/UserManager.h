@@ -20,6 +20,7 @@ public:
 	bool AddUser(const vector<string>& userMsg);
 	bool UpdateUser(const vector<string>& userMsg);
 	bool SearchUser(const long long& userNum);
+	bool MatchUser(const long long& userNum, const string& status);
 	void PrintUser();
 	UserStatus SetUserStatus(const string& status);
 	string GetUserStatus(UserStatus status);

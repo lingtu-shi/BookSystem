@@ -5,8 +5,10 @@
  * Copyright (c) 2023 by BAOSIGHT,All Rights Reserved. 
  * @Description: 
  */
-
 #include "BookBuyer.h"
+
+#include <iostream>
+using namespace std;
 
 BookBuyer::BookBuyer(BookService* bookService) : UserBase(bookService)
 {
@@ -22,6 +24,23 @@ bool BookBuyer::AddBook(const vector<string> bookMsg)
 		return true;
 	}
 	return false;
+}
+
+void BookBuyer::PrintBookBS()
+{
+	if (mRecord.size() != 0)
+	{
+		cout << "Name\tPrice\tCount\tSource" << endl;
+		for (const auto& rec : mRecord)
+		{
+			cout << rec.mBookName << "\t" << rec.mPrice << "\t"\
+				<< rec.mCount << "\t" << rec.mSource << endl;
+		}
+	}
+	else
+	{
+		cout << "Not Found Book!" << endl;
+	}
 }
 
 void BookBuyer::RegisterPurchase(vector<string> bookMsg)
