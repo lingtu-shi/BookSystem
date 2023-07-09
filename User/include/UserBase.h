@@ -21,6 +21,7 @@ public:
 	UserBase(BookService* bookService);
 	bool SearchBook(const string& nameOrPrice);
 	void PrintBook();
+	void PrintBookMap();
 	void GetBookStatus(const string& name);
 protected:
 	BookService* mBookService;

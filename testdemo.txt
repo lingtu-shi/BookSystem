@@ -6,8 +6,14 @@ a
 add buy 101 DP1 buyer
 add kep 102 DP1 keeper
 add bor 103 DP1 borrower
+add bor 104 DP1 borrower
 print
 search 102
+printbu
+printk
+printb
+del 104
+print
 q
 
 #bookbuyer mode
@@ -18,6 +24,7 @@ add b 70.5 10003 BP BPH 2 BS
 add c 20.3 10001 BP BPH 3 BS
 add a 120 10002 BP BPH 2 BS
 print
+printbookmap
 q
 
 #bookkeeper mode

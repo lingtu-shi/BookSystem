@@ -142,6 +142,15 @@ int main()
 				}
 				borrower.PrintBook();
 			}
+			if (command[0] == "printbookmap")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				borrower.PrintBookMap();
+			}
 			else if (command[0] == "search")
 			{
 				if (command.size() != ONE_PARAM && command.size() != TWO_PARAM)
@@ -230,6 +239,15 @@ int main()
 					continue;
 				}
 				bookKeeper.PrintBook();
+			}
+			if (command[0] == "printbookmap")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookKeeper.PrintBookMap();
 			}
 			else if (command[0] == "search")
 			{
@@ -327,6 +345,15 @@ int main()
 				}
 				bookBuyer.PrintBook();
 			}
+			else if (command[0] == "printbookmap")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				bookBuyer.PrintBookMap();
+			}
 			else if (command[0] == "printBS")
 			{
 				if (command.size() != NO_PARAM)
@@ -391,6 +418,15 @@ int main()
 				}
 				userManager->SearchUser(atol(command[1].c_str()));
 			}
+			else if (command[0] == "del")
+			{
+				if (command.size() != ONE_PARAM && atol(command[1].c_str()) == 0)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				userManager->DelUser(atol(command[1].c_str()));
+			}
 			else if (command[0] == "print")
 			{
 				if (command.size() != NO_PARAM)
@@ -399,6 +435,33 @@ int main()
 					continue;
 				}
 				userManager->PrintUser();
+			}
+			else if (command[0] == "printbu")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				userManager->PrintBuyer();
+			}
+			else if (command[0] == "printk")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				userManager->PrintKeeper();
+			}
+			else if (command[0] == "printb")
+			{
+				if (command.size() != NO_PARAM)
+				{
+					cout << "Input Error!" << endl;
+					continue;
+				}
+				userManager->PrintBorrower();
 			}
 			else if (command[0] == "help" || command[0] == "h")
 			{

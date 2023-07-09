@@ -13,23 +13,23 @@
 list<UserMsg>::iterator UserManager::IsUserExist(const long long& userNum)
 {
 	//for test
-	//if (mUserMap.size() == 0)
+	//if (mUserList.size() == 0)
 	//{
 	//	cout << "WARN: NO user in system!" << endl;
 	//}
-	for (auto it = mUserMap.begin(); it != mUserMap.end(); it++)
+	for (auto it = mUserList.begin(); it != mUserList.end(); it++)
 	{
 		if (it->mUserNum == userNum) {
 			return it;
 		}
 	}
-	return mUserMap.end();
+	return mUserList.end();
 }
 
 bool UserManager::AddUser(const vector<string>& userMsg)
 {
 	auto it = IsUserExist(atol(userMsg[2].c_str()));
-	if (it != mUserMap.end())
+	if (it != mUserList.end())
 	{
 		char update = false;
 		cout << "User is exist. update?(y/n)";
@@ -37,7 +37,7 @@ bool UserManager::AddUser(const vector<string>& userMsg)
 		if (update == 'y')
 		{
 			cin.ignore(numeric_limits< streamsize >::max(), '\n');
-			mUserMap.erase(it);
+			mUserList.erase(it);
 		}
 		else
 		{
@@ -54,14 +54,14 @@ bool UserManager::AddUser(const vector<string>& userMsg)
 	{
 		return false;
 	}
-	mUserMap.push_back(user);
+	mUserList.push_back(user);
 	return true;
 }
 
 bool UserManager::UpdateUser(const vector<string>& userMsg)
 {
 	auto it = IsUserExist(atol(userMsg[2].c_str()));
-	if (it == mUserMap.end())
+	if (it == mUserList.end())
 	{
 		cout << "user " << userMsg[1] << " not found!" << endl;
 		return false;
@@ -75,7 +75,7 @@ bool UserManager::UpdateUser(const vector<string>& userMsg)
 	{
 		return false;
 	}
-	mUserMap.push_back(user);
+	mUserList.push_back(user);
 	return true;
 }
 
@@ -83,7 +83,7 @@ bool UserManager::SearchUser(const long long& userNum)
 {
 	cout << "Name\tNum\tDepartment\tUserStatus" << endl;
 	auto it = IsUserExist(userNum);
-	if (it != mUserMap.end())
+	if (it != mUserList.end())
 	{
 		cout << it->mUserName << "\t" << it->mUserNum << "\t"\
 			<< it->mDepartment << "\t" << GetUserStatus(it->mStatus) << endl;
@@ -97,10 +97,26 @@ bool UserManager::SearchUser(const long long& userNum)
 	return false;
 }
 
+bool UserManager::DelUser(const long long& userNum)
+{
+	auto it = IsUserExist(userNum);
+	if (it != mUserList.end())
+	{
+		cout << "Del user: " << it->mUserName << " - " << it->mUserNum << endl;
+		mUserList.erase(it);
+		return true;
+	}
+	else
+	{
+		cout << userNum << " not find!" << endl;
+	}
+	return false;
+}
+
 bool UserManager::MatchUser(const long long& userNum, const string& status)
 {
 	auto it = IsUserExist(userNum);
-	if (it != mUserMap.end())
+	if (it != mUserList.end())
 	{
 		if (SetUserStatus(status) == it->mStatus)
 		{
@@ -112,11 +128,93 @@ bool UserManager::MatchUser(const long long& userNum, const string& status)
 
 void UserManager::PrintUser()
 {
-	cout << "Name\tNum\tDepartment\tUserStatus" << endl;
-	for (auto it : mUserMap)
+	if (mUserList.size() != 0)
 	{
-		cout << it.mUserName << "\t" << it.mUserNum << "\t"\
-			<< it.mDepartment << "\t" << GetUserStatus(it.mStatus) << endl;
+		cout << "Name\tNum\tDepartment\tUserStatus" << endl;
+		for (auto it : mUserList)
+		{
+			cout << it.mUserName << "\t" << it.mUserNum << "\t"\
+				<< it.mDepartment << "\t\t" << GetUserStatus(it.mStatus) << endl;
+		}
+	}
+	else
+	{
+		cout << "There's nobody here." << endl;
+	}
+}
+
+void UserManager::PrintBuyer()
+{
+	if (mUserList.size() != 0)
+	{
+		mBuyerList.clear();
+		for (auto it : mUserList)
+		{
+			if (it.mStatus == UserStatus::mBookBuyer)
+				mBuyerList.push_back(it);
+		}
+		if (mBuyerList.size() == 0)
+			return;
+		cout << "Name\tNum\tDepartment\tUserStatus" << endl;
+		for (auto it : mBuyerList)
+		{
+			cout << it.mUserName << "\t" << it.mUserNum << "\t"\
+				<< it.mDepartment << "\t\t" << GetUserStatus(it.mStatus) << endl;
+		}
+	}
+	else
+	{
+		cout << "There's nobody here." << endl;
+	}
+}
+
+void UserManager::PrintKeeper()
+{
+	if (mUserList.size() != 0)
+	{
+		mKeeperList.clear();
+		for (auto it : mUserList)
+		{
+			if (it.mStatus == UserStatus::mBookKeeper)
+				mKeeperList.push_back(it);
+		}
+		if (mKeeperList.size() == 0)
+			return;
+		cout << "Name\tNum\tDepartment\tUserStatus" << endl;
+		for (auto it : mKeeperList)
+		{
+			cout << it.mUserName << "\t" << it.mUserNum << "\t"\
+				<< it.mDepartment << "\t\t" << GetUserStatus(it.mStatus) << endl;
+		}
+	}
+	else
+	{
+		cout << "There's nobody here." << endl;
+	}
+}
+
+void UserManager::PrintBorrower()
+{
+	if (mUserList.size() != 0)
+	{
+		mBorrowerList.clear();
+		for (auto it : mUserList)
+		{
+			if (it.mStatus == UserStatus::mBorrower)
+				mBorrowerList.push_back(it);
+		}
+		if (mBorrowerList.size() == 0)
+			return;
+		cout << "Name\tNum\tDepartment\tUserStatus" << endl;
+		for (auto it : mBorrowerList)
+		{
+			cout << it.mUserName << "\t" << it.mUserNum << "\t"\
+				<< it.mDepartment << "\t\t" << GetUserStatus(it.mStatus) << endl;
+		}
+	}
+	else
+	{
+		cout << "There's nobody here." << endl;
 	}
 }
 

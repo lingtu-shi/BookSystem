@@ -20,12 +20,19 @@ public:
 	bool AddUser(const vector<string>& userMsg);
 	bool UpdateUser(const vector<string>& userMsg);
 	bool SearchUser(const long long& userNum);
+	bool DelUser(const long long& userNum);
 	bool MatchUser(const long long& userNum, const string& status);
 	void PrintUser();
+	void PrintBuyer();
+	void PrintKeeper();
+	void PrintBorrower();
 	UserStatus SetUserStatus(const string& status);
 	string GetUserStatus(UserStatus status);
 protected:
 	list<UserMsg>::iterator IsUserExist(const long long& userNum);
 protected:
-	list<UserMsg> mUserMap;
+	list<UserMsg> mUserList;
+	list<UserMsg> mBuyerList;
+	list<UserMsg> mKeeperList;
+	list<UserMsg> mBorrowerList;
 };

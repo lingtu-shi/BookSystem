@@ -29,6 +29,11 @@ void UserBase::PrintBook()
 	mBookManager->PrintAllBook(mBookManager->GetBookMap());
 }
 
+void UserBase::PrintBookMap()
+{
+	mBookManager->PrintBookMap(mBookManager->GetBookMap());
+}
+
 void UserBase::GetBookStatus(const string& name)
 {
 	SearchBook(name);

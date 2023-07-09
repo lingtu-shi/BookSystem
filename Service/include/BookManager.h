@@ -23,6 +23,7 @@ class BookManager
 public:
 	bool AddBook(const vector<string> bookMsg);
 	void PrintAllBook(list<BookMsg> bookMap);
+	void PrintBookMap(list<BookMsg> bookMap);
 	bool SearchBook(const string& nameOrPrice);
 	void SortBook();
 	void ClassifyBook();

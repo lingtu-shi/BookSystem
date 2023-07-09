@@ -103,6 +103,28 @@ void BookManager::PrintAllBook(list<BookMsg> bookMap)
 	}
 }
 
+void BookManager::PrintBookMap(list<BookMsg> bookMap)
+{
+	if (bookMap.size() != 0)
+	{
+		cout << "Name\tPrice\tNum\tAuthor\tPulishingHouse" << endl;
+		BookMsg lastbook;
+		lastbook.mBookName = "";
+		for (const auto& book : bookMap)
+		{
+			if (book.mBookName == lastbook.mBookName)
+				continue;
+			cout << book.mBookName << "\t" << book.mBookPrice << "\t" << book.mBookNum\
+				<< "\t" << book.mAuthor << "\t" << book.mPublishingHouse << endl;
+			lastbook = book;
+		}
+	}
+	else
+	{
+		cout << "Not Found Book!" << endl;
+	}
+}
+
 bool BookManager::SearchBook(const string& nameOrPrice)
 {
     cout << "Name\tPrice\tNum\tAuthor\tPulishingHouse\tState" << endl;

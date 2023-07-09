@@ -28,6 +28,7 @@ void SystemUI::GetBuyerUI()
 	cout << "add [BookName] [BookPrice] [BookNum] [Author] \
 [Pulishing house] [Count] [Purchase Source]" << endl;
 	cout << "print : to print all books" << endl;
+	cout << "printbookmap : to print books map" << endl;
 	cout << "printBS : to print all books source" << endl;
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "help/h : to get help" << endl;
@@ -39,6 +40,7 @@ void SystemUI::GetKeeperUI()
 	cout << "*****Keeper Mode*****" << endl;
 	cout << "*****Input command:(command parameters)*****" << endl;
 	cout << "print : to print all books" << endl;
+	cout << "printbookmap : to print books map" << endl;
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "sort : to sort book map" << endl;
 	cout << "classify : to divided into three categories by book price(~50,50~100,100~)" << endl;
@@ -53,6 +55,7 @@ void SystemUI::GetBorrowerUI()
 	cout << "*****Borrower Mode*****" << endl;
 	cout << "*****Input command:(command parameters)*****" << endl;
 	cout << "print : to print all books" << endl;
+	cout << "printbookmap : to print books map" << endl;
 	cout << "search [BookName]/[BookPrice]/[BookName BookPrice]  : to search book" << endl;
 	cout << "borrow [BookName] : to borrow book" << endl;
 	cout << "return [BookName] : to return book" << endl;
@@ -69,7 +72,11 @@ void SystemUI::GetAdminUI()
 	cout << "==>UserStatus[]={ borrower(/b), keeper(/k), buyer(/bu)}" << endl;
 	cout << "update [UserName] [UserNum] [Department] [UserStatus]" << endl;
 	cout << "search [UserNum]" << endl;
+	cout << "del [UserNum]" << endl;
 	cout << "print : to print all user" << endl;
+	cout << "printbu : to print buyer" << endl;
+	cout << "printk : to print keeper" << endl;
+	cout << "printb : to print borrower" << endl;
 	cout << "help/h : to get help" << endl;
 	cout << "quit/q : to exit" << endl << endl;
 }
